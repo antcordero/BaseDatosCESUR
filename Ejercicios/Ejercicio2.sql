@@ -27,13 +27,17 @@ from pokemon
 where year(fecha_nac)=2000 or year(fecha_nac)=2001
 order by nombre asc;
 
+/* Se puede usar también: where year(fecha_nac) in (2000, 2001, 2002)*/
+
 /*Ejercicio 5.- Muestra el ID de los Pokemon que su nombre comience por la letra "C" 
 				y contengan la letra "A" ordenados por el nombre del Pokemon.*/
 
 select id
 from pokemon
-where nombre like "C%" and nombre like "%C%"
+where nombre like "C%" and nombre like "%A%"
 order by nombre asc;
+
+/*Otra opción: where nombre like "C%A%"*/
 
 /*Ejercicio 6.- Muestra todos pokemon que hayan nacido en el mes de octubre 
 				o su edad esté entre 29 y 35 años (ambos incluidos).*/
@@ -76,5 +80,5 @@ Ordena los resultados alfabéticamente por el nombre del Pokemon.*/
 
 select id, nombre, edad
 from pokemon
-where (nombre like "J%" and nombre like "%M%" and nombre like "%A") or (edad like "%")
+where (nombre like "J%" and nombre like "%M%" and nombre like "%A") or (char_length(edad)=1)
 order by nombre asc;
