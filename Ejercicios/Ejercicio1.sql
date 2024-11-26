@@ -47,7 +47,7 @@ order by edad desc;
 
 /*Ejercicio 6.- Muestra el número de pokemons en total en la tabla POKEMON.*/
 
-select count(nombre)
+select count(id)
 from pokemon;
 
 /*Ejercicio 7.- Muestra la media de edad de los pokemon.*/
@@ -69,11 +69,11 @@ from pokemon;
 
 select tipo, nombre
 from pokemon 
-order by tipo asc;
+order by tipo, nombre asc;
 
 /*Ejercicio 11.- Muestra los 3 pokemon de más edad, ordenador de mayor a menor.*/
 
-select nombre
+select *
 from pokemon 
 order by edad desc
 limit 3;
@@ -87,7 +87,6 @@ limit 1;
  
 /*Ejercicio 13.- Muestra los distintos tipos de Tipo de pokemon que existen en la tabla POKEMON sin que se repitan en el resultado.*/
 
-select tipo
+select distinc tipo
 from pokemon
-group by tipo
 order by tipo desc;
