@@ -87,6 +87,6 @@ limit 1;
  
 /*Ejercicio 13.- Muestra los distintos tipos de Tipo de pokemon que existen en la tabla POKEMON sin que se repitan en el resultado.*/
 
-select distinc tipo
+select distinct tipo
 from pokemon
 order by tipo desc;
