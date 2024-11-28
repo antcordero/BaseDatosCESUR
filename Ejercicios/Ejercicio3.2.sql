@@ -60,9 +60,9 @@ where month(r.fecha_nac)<>02;
 películas en las que sean protagonistas. Ordena los resultados por la 
 fecha de nacimiento de los actores.*/
 
-select r.nombre, r.apellidos, count(p.id)
+select r.nombre, r.apellidos, count(p.id) as num_peliculas
 from reparto as r inner join peliculas as p on r.dni=p.Protagonista
-where p.Protagonista like r.dni
+group by r.dni, r,nombre, r.apellido, r.fecha_nac
 order by r.fecha_nac asc;
 
 /*Ejercicio 3.- Muestra el DNI de los actores que hayan nacido 
@@ -110,28 +110,28 @@ Ordena el resultado por la nota de las películas de cada director (de menor a m
 
 select p.director as DIRECTOR, r.nombre as PROTAGONISTA
 from reparto as r inner join peliculas as p on r.dni=p.Protagonista
-where (r.nombre like p.Protagonista) and 
-										(r.nombre like "%a" or
-                                        r.nombre like "%e" or
-                                        r.nombre like "%i" or
-                                        r.nombre like "%o" or 
-                                        r.nombre like "%u" )
+where r.nombre like "%a" or r.nombre like "%e" or r.nombre like "%i" or r.nombre like "%o" or r.nombre like "%u"
 order by p.Nota desc;
 
 /*Ejercicio 8.- Muestra nombre de las películas junto con su duración en segundos, 
 				y junto con su nota sobre 100 (en vez de sobre 10).*/
 
-
+select p.nombre, p.nota*10, p.duracion*60
+from reparto r inner join peliculas p on r.dni=p.protagonista;
 
 /*Ejercicio 9.- Muestra el número total de peliculas en la tabla Películas, 
 junto con el número total de Actores en la tabla Reparto. 
 Muestra los resultados en dos tablas llamadas NUM_PROTAGONISTAS y NUM_PELICULAS.*/
 
-
+select count(p.id) as NUM_PELICULAS, count(distinct r.dni) as NUM_PROTAGONISTAS		
+from reparto as r inner join peliculas as p on r.dni=p.Protagonista;
 
 /*Ejercicio 10.- Muestra el nombre y apellido de los actores junto a la nota con 
 menor puntuación que hayan rodado. El nombre de la película debe tener 
 menos caractéres que la nota de la propia película.*/
 
-
-
+select r.nombre, r.apellido, p.nota
+from reparto r inner join peliculas p on r.dni=p.protagonista
+where char_length(p.nombre)<p.nota
+order by p.nota asc
+limit 1;
