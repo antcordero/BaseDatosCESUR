@@ -48,7 +48,8 @@ por el nombre del actor.*/
 
 select a.nombre, count(p.id)
 from actores a inner join peliculas p on a.id_actor=p.protagonista
-group by a.nombre;
+group by a.nombre
+order by a.nombre;
 
 /*Ejercicio 2.- Muestra los diferentes géneros de las películas junto 
 al número de películas de dicho género. Ordena los resultados por 
@@ -56,7 +57,8 @@ el número de películas, de menor a mayor.*/
 
 select p.genero, count(p.id)
 from peliculas p
-group by p.genero;
+group by p.genero
+order by 2 asc;
 
 /*Ejercicio 3.- Muestra los diferentes géneros de los actores 
 junto al número de películas que hayan rodado los actores de ese género. 
@@ -64,7 +66,7 @@ Siempre y cuando el género no tenga menos de 6 letras.*/
 
 select a.genero, count(p.id)
 from actores as a inner join peliculas as p on a.id_actor=p.protagonista
-where char_length(a.genero)>6
+where char_length(a.genero)>=6
 group by a.genero;
 
 /*Ejercicio 4.- Muestra el identificador y nombre de los actores 
@@ -83,7 +85,7 @@ Muesta solo los datos de los 2 géneros con una media de salario mayor,
 ordenador de mayor a menor.*/
 
 select a.genero, avg(a.sueldo) as "Salario Medio Género"
-from actores as a inner join peliculas as p on a.id_actor=p.protagonista
+from actores as a
 group by a.genero
 order by 2 desc
 limit 2;
