@@ -60,40 +60,52 @@ INSERT INTO Cartelera (id_sala, sesiones, plazas, peli) VALUES
 su protagonista y toda la información de la sala donde se proyecte dicha película.*/
 
 select p.nombre, a.nombre, c.*
-from peliculas p inner join actores a on p.protagonista=a.id_actor 
-				 inner join cartelera c on  p.id=c.peli;
+from peliculas p inner join actores a inner join cartelera c 
+on p.protagonista=a.id_actor and p.id=c.peli;
 
 /*Ejercicio 2.- Muestra el identificador del actor junto al 
 				nombre de la película y el número de plazas TOTAL de las salas 
 				donde se proyecte dicha película.*/
 
-select a.id_actor, p.nombre, c.plazas as PlazasTotal
-from actores a inner join peliculas p on a.id_actor=p.protagonista
-			   inner join cartelera c on p.id=c.peli;
+select a.id_actor, p.nombre, sum(c.plazas) as "Plazas Totales"
+from peliculas p inner join actores a inner join cartelera c 
+on p.protagonista=a.id_actor and p.id=c.peli
+group by p.id;
 
 /*Ejercicio 3.- Muestra el nombre del actor junto a las plazas de la sala 
 con más plazas donde se proyecte la película donde sea el protagonista.*/
 
-select a.nombre, c.plazas
-from actores a inner join peliculas p on a.id_actor=p.protagonista
-			   inner join cartelera c on p.id=c.peli
-where p.protagonista = a.id_actor;
+select a.nombre, max(c.plazas) as "Num Máximo Plazas"
+from peliculas p inner join actores a inner join cartelera c 
+on p.protagonista=a.id_actor and p.id=c.peli
+group by 1;
 
 /*Ejercicio 4.- Muestra el identificador del actor junto al número de 
 sesiones totales de dicha película, siempre y cuando el director de la película 
 no se llame "Tomás" y el género del protagonista no sea "otros".*/
 
-select a.id_actor, c.sesiones as SecionesTotales
-from actores a inner join peliculas p on a.id_actor=p.protagonista
-			   inner join cartelera c on p.id=c.peli
-where p.director not like "Tomás" and a.genero not like "otros";
+select a.id_actor, sum(c.sesiones) as "Seciones Totales"
+from peliculas p inner join actores a inner join cartelera c 
+on p.protagonista=a.id_actor and p.id=c.peli
+where p.director not like "Tomás" and a.genero not like "otros"
+group by a.id_actor;
 
 /*Ejercicio 5.- Muestra el identificador del actor junto al número de 
 sesiones totales de dicha película, siempre y cuando el director de 
 la película no se llame "Tomás" y el género del protagonista no sea "otros", 
 y el número de sesiones sea mayor que 2.*/
 
-select a.id_actor, c.sesiones as SesionesTotales
-from actores a inner join peliculas p on a.id_actor=p.protagonista
-			   inner join cartelera c on p.id=c.peli
-where p.director not like "Tomás" and a.genero not like "otros" and c.sesiones > 2;
+select a.id_actor, sum(c.sesiones) as "Seciones Totales"
+from peliculas p inner join actores a inner join cartelera c 
+on p.protagonista=a.id_actor and p.id=c.peli
+where p.director not like "Tomás" and a.genero not like "otros" and c.sesiones > 2
+group by a.id_actor;
+
+
+/*Mostar los nombres de los actores que tenga un sueldo superior a Brad*/
+
+select a.nombre, a.sueldo
+from actores as a
+where a.sueldo > (select a.sueldo 
+				  from actores as a 
+                  where a.nombre like "brad");
