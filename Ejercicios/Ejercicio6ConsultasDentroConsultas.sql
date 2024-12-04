@@ -60,14 +60,16 @@ from reparto as r
 where month(r.fecha_nac) like "02" or
       char_length(r.nombre) >= (select char_length(r.apellido) 
 								from reparto as r
-								where r.apellido like "Hayek");
+								where r.apellido like "Hayek")
+		and r.apellido not like "Hayek";
 
 /*Ejercicio 3.- Muestra los DNIs de los actores junto con la media de 
 puntuación de las películas que hayan rodado. No utilices la función GROUP BY.*/
 
-select r.dni, avg(p.nota)
-from reparto as r inner join peliculas as p on r.dni=p.protagonista;
-
+select r.dni, (select avg(p.nota)
+				from peliculas as p
+                where p.protagonista=r.dni) as "Nota Media"
+from reparto as r;
 
 /*Ejercicio 4.- Muestra los datos de la película con puntuación menor 
 a la película rodada por el actor de nombre "Will".*/
@@ -86,16 +88,48 @@ where p.nota < (
 la película con mayor puntuación rodada por el actor de apellido "Clooney". 
 Ordena los resultados por la puntuación de mayor a menor.*/
 
-
+select p.*
+from peliculas as p inner join reparto as r on p.protagonista=r.dni
+where p.nota > (select p.nota 
+				from peliculas as p inner join reparto as r on p.protagonista=r.dni
+                where r.apellido like "Clooney"
+                limit 1)
+order by p.nota desc;
 
 /*Ejercicio 6.- Muestra el número de peliculas que haya rodado el protagonista de 
 Oceans Eleven en una columna llamada "Número".*/
 
-
+select count(p.id) as "Nº Películas"
+from peliculas as p inner join reparto as r on p.protagonista=r.dni
+where p.protagonista = (select p.protagonista
+						from peliculas as p
+						where p.nombre like "Oceans Eleven")
+order by p.protagonista;
 
 /*Ejercicio EXTRA.- Muestra los datos de las películas con puntuación mayor que 
 la peor película del actor que haya nacido en el mes de diciembre, 
 y menor que la mejor película que haya rodado el mismo actor. 
 El actor en cuestión no puede ser el mismo que haya rodado la película "Bright".*/
 
-
+select p.*
+from peliculas as p inner join reparto as r on p.protagonista=r.dni
+where p.nota > (select p.nota
+				from peliculas as p inner join reparto as r on p.protagonista=r.dni
+                where month(r.fecha_nac) like "12"
+                order by p.nota asc
+                limit 1)
+                
+	  and
+                
+	  p.nota < (select p.nota
+				from peliculas as p inner join reparto as r on p.protagonista=r.dni
+                where month(r.fecha_nac) like "12"
+                order by p.nota desc
+                limit 1
+                )
+                
+	  and 
+      
+      p.protagonista not like (select r.dni
+								from peliculas as p inner join reparto as r on p.protagonista=r.dni
+                                where p.nombre like "Bright");
