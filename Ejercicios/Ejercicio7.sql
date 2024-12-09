@@ -67,11 +67,10 @@ group by a.id_actor;
 que el actor con id 104, ordenador por la fecha de nacimiento de menor a mayor.*/
 
 select a.nombre 
-from actores as a inner join peliculas as p on a.id_actor=p.protagonista
+from actores as a 
 where char_length(a.nombre) < (select char_length(a.nombre)
 								from actores as a
                                 where a.id_actor = 104)
-group by a.id_actor
 order by fecha_nac desc;
 
 /*Ejercicio 4.- Obtén el número total de películas rodadas por cada actor, 
@@ -80,16 +79,44 @@ Muestra los datos en dos columnas de nombre ACTOR y TOTAL.*/
 
 select a.nombre as "Actor", count(p.id) as "NºTotal"
 from actores as a inner join peliculas as p on a.id_actor=p.protagonista
-where month(a.fecha_nac) = "02" or month(a.fecha_nac) = "03"
-group by 1
+where month(a.fecha_nac) not in ("02","03")
+group by 1;
 
 /*Ejercicio 5.- Obtén el nombre de las películas con menor duración que 
 la tercera película con mayor duración de la tabla.*/
+
+select p.nombre
+from peliculas as p
+where p.duracion < (select min(p.duracion)
+					from (select p.duracion
+						  from peliculas as p
+                          order by p.duracion desc
+                          limit 3) 
+					 as p
+                     );
 
 /*Ejercicio 6.- Obtén el nombre de las películas que contengan más de 
 un letra "a" en su nombre y no hayan sido protagonizadas por el actor 
 con sexo masculino y el máximo id.*/
 
+select p.nombre
+from peliculas as p inner join actores as a on p.protagonista=a.id_actor
+where p.nombre like "%a%a%" and a.id_actor not like (select max(a.id_actor)
+													 from (select a.id_actor
+														   from actores as a
+														   where a.genero like "masculino"
+														   ) as a 
+                                                     );
+
 /*Ejercicio 7.- Obtén los datos del actor con el mismo nombre que 
 el director de la película con menor puntuación de la tabla Películas.*/
+
+select a.*
+from actores as a
+where a.nombre like (select p.director
+					 from peliculas as p
+                     where p.nota = (select min(p.nota) 
+									 from peliculas as p
+                                     )
+					);
 
