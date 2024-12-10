@@ -49,8 +49,8 @@ que el sueldo de Penelope, y que hayan rodado una película de acción.*/
 select a.*
 from actores as a inner join peliculas as p on a.id_actor=p.protagonista
 where a.sueldo < (select a.sueldo
-				  from actores as a inner join peliculas as p on a.id_actor=p.protagonista
-                  where a.nombre like "Penelope" and p.genero like "acción");
+				  from actores as a 
+                  where a.nombre like "Penelope") and p.genero like "acción";
 
 /*Ejercicio 2.- Obtén el id y nombre del actor que haya rodado una película 
 del mismo género que la película rodada por Jon, 

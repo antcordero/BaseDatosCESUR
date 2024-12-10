@@ -112,7 +112,7 @@ y menor que la mejor película que haya rodado el mismo actor.
 El actor en cuestión no puede ser el mismo que haya rodado la película "Bright".*/
 
 select p.*
-from peliculas as p inner join reparto as r on p.protagonista=r.dni
+from peliculas as p 
 where p.nota > (select p.nota
 				from peliculas as p inner join reparto as r on p.protagonista=r.dni
                 where month(r.fecha_nac) like "12"
