@@ -68,7 +68,7 @@ Muestra el valor del salario en dolares y en una columna llamada DOLARES.
 
 select e.nombre, e.cargo, e.salario*1.5 as "Dolares $"
 from empleado as e
-where e.salario > 800.000 and e.cargo like "Vendedor"
+where e.salario > 800000 and e.cargo like "Vendedor"
 order by e.salario desc;
 
 /*Ejercicio 2.- Obtener los nombres de los empleados cuya comisión sea
@@ -88,9 +88,7 @@ o que en 2023 hayan cumplido 20 o más años desde su incorporación a la empres
 
 select e.nombre, e.fecha_nac, e.cargo
 from empleado as e
-where ( char_length(e.nombre) between (11, 14) )
-or 
-( 2023 - e.fecha_incorporacion ) >= 20
+where (char_length(e.nombre) between 11 and 14 ) or ( (2023 - year(e.fecha_incorporacion) >= 20) )
 order by e.nombre asc;
 
 /*Ejercicio 4.- Obtener el nombre y salario de los 5 hombres con mayor salario 
@@ -100,10 +98,12 @@ Ordena los resultados por el salario de los empleados (de mayor a menor).*/
 
 select e.nombre, e.salario
 from empleado as e inner join departamento as d on e.departamento=d.cod
-where d.nombre like "MERCADEO" and (d.nombre like "%i%" 
-									or d.nombre like "%a%"
-									or d.nombre like "%e%")
-order by e.salario desc;
+where d.nombre like "MERCADEO" and (d.ciudad like "%i%" 
+									or d.ciudad like "%a%"
+									or d.ciudad like "%e%")
+and e.genero like "M"
+order by e.salario desc
+limit 5;
 
 /*Ejercicio 5.- Obtener el número total de mujeres de la empresa, 
 junto con la media de salario de estas, siempre que no trabajen en el departamento 
