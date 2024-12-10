@@ -112,17 +112,5 @@ Muestra los resultados en columnas denominadas como “Nºtotal” y “MediaSal
 
 select count(e.id) as "NºTotal", avg(e.salario) as "MediaSalario"
 from empleado as e inner join departamento as d on e.departamento=d.cod
-where e.genero like "F" 
-
-	and
-
-	(e.departamento not between ( (select d.cod
-								  from departamento as d
-								  where d.nombre like "VENTAS") )
-                         
-	and
-	 
-	e.departamento not between ( (select d.cod
-								  from departamento as d
-								  where d.nombre like "MANTENIMIENTO") ) ) 
+where e.genero like "F" and d.nombre not in ("VENTAS","MANTENIMIENTO")  
 group by e.genero;
