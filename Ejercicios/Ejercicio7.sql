@@ -56,12 +56,11 @@ where a.sueldo < (select a.sueldo
 del mismo género que la película rodada por Jon, 
 y en la columna sexo tenga el valor Femenino.*/
 
-select a.id_actor, a.nombre
+select distinct a.id_actor, a.nombre
 from actores as a inner join peliculas as p on a.id_actor=p.protagonista
 where p.genero like (select p.genero
 					 from actores as a inner join peliculas as p on a.id_actor=p.protagonista
-                     where p.director like "Jon" and a.genero like "femenino")
-group by a.id_actor;
+                     where p.director like "Jon" and a.genero like "femenino");
 
 /*Ejercicio 3.- Obtén el nombre de los actores que tengan menos caracteres 
 que el actor con id 104, ordenador por la fecha de nacimiento de menor a mayor.*/
