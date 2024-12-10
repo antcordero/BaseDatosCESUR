@@ -60,7 +60,7 @@ select distinct a.id_actor, a.nombre
 from actores as a inner join peliculas as p on a.id_actor=p.protagonista
 where p.genero like (select p.genero
 					 from actores as a inner join peliculas as p on a.id_actor=p.protagonista
-                     where p.director like "Jon" and a.genero like "femenino");
+                     where p.director like "Jon") and a.genero like "femenino";
 
 /*Ejercicio 3.- Obtén el nombre de los actores que tengan menos caracteres 
 que el actor con id 104, ordenador por la fecha de nacimiento de menor a mayor.*/
@@ -93,6 +93,13 @@ where p.duracion < (select min(p.duracion)
                           limit 3) 
 					 as p
                      );
+/*Corrección*/
+select p.nombre
+from peliculas as p
+where p.duracion < (select p.duracion
+				    from peliculas as p
+				    order by p.duracion desc
+				    limit 2,1);
 
 /*Ejercicio 6.- Obtén el nombre de las películas que contengan más de 
 un letra "a" en su nombre y no hayan sido protagonizadas por el actor 
@@ -105,6 +112,15 @@ where p.nombre like "%a%a%" and a.id_actor not like (select max(a.id_actor)
 														   from actores as a
 														   where a.genero like "masculino"
 														   ) as a 
+                                                     );
+/*Corrección*/
+select p.nombre
+from peliculas as p inner join actores as a on p.protagonista=a.id_actor
+where p.nombre like "%a%a%" and a.id_actor not like (select a.id_actor
+												     from actores as a
+													 where a.genero like "masculino" 
+                                                     order by a.id_actor desc
+                                                     limit 1
                                                      );
 
 /*Ejercicio 7.- Obtén los datos del actor con el mismo nombre que 
