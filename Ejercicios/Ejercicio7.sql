@@ -59,7 +59,7 @@ y en la columna sexo tenga el valor Femenino.*/
 select distinct a.id_actor, a.nombre
 from actores as a inner join peliculas as p on a.id_actor=p.protagonista
 where p.genero like (select p.genero
-					 from actores as a inner join peliculas as p on a.id_actor=p.protagonista
+					 from peliculas as p 
                      where p.director like "Jon") and a.genero like "femenino";
 
 /*Ejercicio 3.- Obtén el nombre de los actores que tengan menos caracteres 
