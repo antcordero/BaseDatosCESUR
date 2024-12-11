@@ -76,7 +76,7 @@ order by e.salario desc;
  Ordena los resultados por el género de los empleados (muestra primero a los de género "M"),
  y en su defecto por el salario del empleado (de mayor a menor). */
 
-select e.nombre, e.comision as "PRIVILEGIADOS", e.salario, e.genero
+select e.nombre as "PRIVILEGIADOS"
 from empleado as e
 where e.comision <= (e.salario*0.3)
 order by e.genero desc, e.salario desc;
