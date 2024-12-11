@@ -106,22 +106,21 @@ un letra "a" en su nombre y no hayan sido protagonizadas por el actor
 con sexo masculino y el máximo id.*/
 
 select p.nombre
-from peliculas as p inner join actores as a on p.protagonista=a.id_actor
-where p.nombre like "%a%a%" and a.id_actor not like (select max(a.id_actor)
-													 from (select a.id_actor
-														   from actores as a
-														   where a.genero like "masculino"
-														   ) as a 
-                                                     );
+from peliculas as p 
+where p.nombre like "%a%a%" and p.protagonista not like (select a.id_actor
+														 from actores as a
+														 where a.genero like "masculino" 
+														 order by a.id_actor desc
+														 limit 1
+														 );
+
 /*Corrección*/
 select p.nombre
-from peliculas as p inner join actores as a on p.protagonista=a.id_actor
-where p.nombre like "%a%a%" and a.id_actor not like (select a.id_actor
-												     from actores as a
-													 where a.genero like "masculino" 
-                                                     order by a.id_actor desc
-                                                     limit 1
-                                                     );
+from peliculas as p 
+where p.nombre like "%a%a%" and p.protagonista not like (select max(a.id_actor)
+														 from actores as a
+														 where a.genero like "masculino" 
+														 );
 
 /*Ejercicio 7.- Obtén los datos del actor con el mismo nombre que 
 el director de la película con menor puntuación de la tabla Películas.*/
