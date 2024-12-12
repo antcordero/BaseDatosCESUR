@@ -122,7 +122,7 @@ en la ciudad de Cali y el nombre del departamento sea "MANTENIMIENTO".*/
 
 select e.*
 from empleado as e inner join departamento as d on e.departamento=d.cod
-where e.cargo like "Jefe %" and d.ciudad like "CALI" and d.nombre like "MANTENIMIENTO";
+where e.cargo like "Jefe%" and d.ciudad like "CALI" and d.nombre like "MANTENIMIENTO";
 
 /*Ejercicio 6.- Muestra el nombre del departamento donde trabaje el empleado 
 con menor salario de la tabla empleados. No utilices el comando INNER JOIN 
@@ -132,7 +132,7 @@ select d.nombre
 from departamento as d
 where d.cod = ( select e.Departamento
 				from empleado as e
-				order by salario
+				order by salario asc
 				limit 1
 				);
 
@@ -162,6 +162,7 @@ where e.genero like "M" and char_length(e.nombre) = (select char_length(e.nombre
                                                      where e.cargo like "Vendedor"
                                                      order by e.salario desc
                                                      limit 1);
+
 
 /********************************************************************************/
 /*Ejercicio 9.- Muestra los nombres de los empleados que tengas mayor salario 
