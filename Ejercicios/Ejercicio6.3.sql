@@ -170,14 +170,14 @@ que el empleado más joven, y menos salario que el empleado más viejo.*/
  
 select e.nombre
 from empleado as e
-where (e.salario < (select e.salario
+where (e.salario > (select e.salario
 					from empleado as e
-                    order by (2024 - year(e.fecha_nac)) asc
+                    order by e.fecha_nac desc
                     limit 1))
 and
-	  (e.salario > (select e.salario
+	  (e.salario < (select e.salario
 					from empleado as e
-                    order by (2024 - year(e.fecha_nac)) desc
+                    order by e.fecha_nac asc
                     limit 1));
 
 /*Ejercicio 10.- Muestra el nombre e identificador de los empleados con un número de 
