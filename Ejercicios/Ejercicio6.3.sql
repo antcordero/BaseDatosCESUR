@@ -69,7 +69,7 @@ INSERT INTO Empleado (id, nombre, genero, fecha_nac, fecha_incorporacion, salari
 
 select e.*
 from empleado as e
-where (month(e.fecha_nac) < 6) and (e.salario > (select e.salario
+where (month(e.fecha_nac) < 6) and (e.salario > (select max(e.salario)
 												from empleado as e
                                                 where e.cargo like "Jefe Ventas"
                                                 ))
@@ -83,7 +83,7 @@ select e.nombre, e.id
 from empleado as e
 where e.genero like (select e.genero
 					 from empleado as e
-                     order by e.fecha_incorporacion desc
+                     order by e.fecha_incorporacion asc
                      limit 1
 					 )
 order by e.nombre asc;
@@ -139,7 +139,6 @@ where d.cod = ( select e.Departamento
 /*Ejercicio 7.- Muestra el nombre de los empleados que su diferencia entre 
 salario y comisión (salario - comisión) sea mayor que la diferencia de 
 salario y comisión del empleado nacido en el año 1982. 
-
 Muestra en el resultado de la consulta el nombre del empleado junto 
 con la diferencia entre su salario y comisión en una columna de nombre DIFERENCIA. 
 Ordena los resultados por dicha diferencia.*/
@@ -163,3 +162,51 @@ where e.genero like "M" and char_length(e.nombre) = (select char_length(e.nombre
                                                      where e.cargo like "Vendedor"
                                                      order by e.salario desc
                                                      limit 1);
+
+/********************************************************************************/
+/*Ejercicio 9.- Muestra los nombres de los empleados que tengas mayor salario 
+que el empleado más joven, y menos salario que el empleado más viejo.*/
+ 
+select e.nombre
+from empleado as e
+where (e.salario < (select e.salario
+					from empleado as e
+                    order by (2024 - year(e.fecha_nac)) asc
+                    limit 1))
+and
+	  (e.salario > (select e.salario
+					from empleado as e
+                    order by (2024 - year(e.fecha_nac)) desc
+                    limit 1));
+
+/*Ejercicio 10.- Muestra el nombre e identificador de los empleados con un número de 
+caracteres en su nombre igual al empleado del departamento de Gerencia 
+que lleve más años en la empresa.*/
+
+select e.nombre, e.id
+from empleado as e
+where char_length(e.nombre) = (select char_length(e.nombre)
+								from empleado as e inner join departamento as d on e.departamento=d.cod
+                                where d.nombre like "GERENCIA" 
+                                order by e.fecha_nac asc
+                                limit 1
+								);
+
+/*Ejercicio 11.- Muestra el identificador de los departamentos junto con 
+el número de empleados que trabajen en el, siempre y cuando tengan más 
+empleados que el departamento de Mercadeo.*/
+
+select d.cod, count(e.id) as "NºTotal Empleados"
+from departamento as d inner join empleado as e on d.cod=e.departamento
+where count(e.id) > (select count(e.id) as "NºTotal Mercadeo"
+					 from departamento as d inner join empleado as e on d.cod=e.departamento
+					 where d.nombre like "MERCADEO"
+                     )
+group by d.cod;
+
+/**/
+select d.nombre, count(e.id) as "NºTotal"
+from departamento as d inner join empleado as e on d.cod=e.departamento
+group by d.cod
+order by 2 desc
+
