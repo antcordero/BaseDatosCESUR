@@ -189,7 +189,7 @@ from empleado as e
 where char_length(e.nombre) = (select char_length(e.nombre)
 								from empleado as e inner join departamento as d on e.departamento=d.cod
                                 where d.nombre like "GERENCIA" 
-                                order by e.fecha_nac asc
+                                order by e.fecha_incorporacion desc
                                 limit 1
 								);
 
