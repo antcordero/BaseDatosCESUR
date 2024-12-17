@@ -17,7 +17,7 @@ create table alumnos (
 	dni varchar(9) primary key,
 	nombre varchar(15) not null,
     apellido varchar(15) not null,
-    edad int(2) not null,
+    edad decimal(2,0) not null,
     fecha_nacimiento date,
     genero enum ("masculino", "femenino", "otros")
 );
@@ -31,7 +31,7 @@ create table alumnos (
 *Todos los campos podrán contener valores NULL, a excepción del ID y Curso*/
 
 create table asignaturas (
-	id int(1) primary key,
+	id decimal(1,0) primary key,
 	nombre varchar(15) not null,
     grado varchar(6),
     curso enum ("1", "2") not null
@@ -48,29 +48,25 @@ create table asignaturas (
 create table notas (
 	cod int auto_increment primary key,
     nota decimal(2,1) constraint chk_nota check (nota>=0.00 and nota<=9.99),
+    /*nota decimal(3,2)*/
     profesor varchar(20)
-);
+) auto_increment=50;
+/*para que el auto_incremento empiece a partir de 50*/
 
 /*Ejercicio 5.- Realiza las siguientes modificaciones en la tabla NOTAS.
 	- Añade una nueva columna ID_Alumno que referencie al DNI de la tabla ALUMNO
 	- Añade una nueva columna ID_Asignaturas que referencie a al ID de la tabla ASIGNATURAS*/
 
 alter table notas add column dni_alumno varchar(9);
-alter table notas add constraint fk_dni
+alter table notas add constraint fk_alumno
 foreign key (dni_alumno) references alumnos(dni);
 
-alter table notas add column id_asignatura int;
+alter table notas add column id_asignatura decimal(1,0);
 alter table notas add constraint fk_asignatura
 foreign key (id_asignatura) references asignaturas(id);
 
 /*Ejercicio 6.- Añade 5 filas de datos diferentes a NULL en las 3 tablas creadas en la base de datos.*/
 
-insert into asignaturas (id, nombre, grado, curso) values
-	(1, "BaseDatos", "DAW", 1),
-    (2, "Programación", "DAW", 1),
-    (3, "Lenguaje", "DAM", 1),
-	(4, "E.Servidor", "DAW", 2),
-    (5, "E.Cliente", "DAM", 2);
 
 insert into alumnos (dni, nombre, apellido, edad, fecha_nacimiento, genero) values
 	("12345678A", "Elsa", "Pato", 26, "1998-01-20", "femenino"),
@@ -79,12 +75,19 @@ insert into alumnos (dni, nombre, apellido, edad, fecha_nacimiento, genero) valu
     ("42345678D", "Aitor", "Tilla", 26, "1998-01-20", "masculino"),
     ("52345678E", "Toni", "CM", 26, "1998-01-20", "masculino");
 
-insert into notas (cod, nota, profesor, dni_alumno, id_asignatura) values
-	(1, 8.50, "Jon",  "12345678A", 1),
-    (2, 9.50, "José Antonio",  "22345678B", 2),
-    (3, 8.75, "Francisco",  "32345678C", 2),
-    (4, 6.50, "Victor",  "42345678D", 3),
-    (5, 7.50, "Jon",  "2345678E", 4);
+insert into asignaturas (id, nombre, grado, curso) values
+	(1, "BaseDatos", "DAW", 1),
+    (2, "Programación", "DAW", 1),
+    (3, "Lenguaje", "DAM", 1),
+	(4, "E.Servidor", "DAW", 2),
+    (5, "E.Cliente", "DAM", 2);
+
+insert into notas (nota, profesor, dni_alumno, id_asignatura) values
+	(8.50, "Jon",  "12345678A", 1),
+    (9.50, "José Antonio",  "22345678B", 2),
+    (8.75, "Francisco",  "32345678C", 2),
+    (6.50, "Victor",  "42345678D", 3),
+    (7.50, "Jon",  "2345678E", 4);
 
 select * from asignaturas;
 select * from alumnos;
