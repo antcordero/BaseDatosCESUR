@@ -80,12 +80,21 @@ foreign key (empleado) references vendedor(dni);
 
 insert into coche (id, matricula, precio, color) values
 	(2010,"123456-A", 20000.00, "blanco");
+    
+insert into coche (matricula, precio) values
+	("123456-C", 30000.00),
+    ("123456-D", 30000.00),
+    ("123456-E", 30000.00);
 
 insert into vendedor (dni, nombre, apellido, direccion, email) values
-	("12345678A", "Antonior", "Asasasaas", "Avenida assass bloque 1", "asasasas@gmail.com");
-    
+	("12345678A", "Antonior", "Asasasaas", "Avenida assass bloque 1", "asasasas@gmail.com"),
+	("12345678B", "Antonior", "Asasasaas", "Avenida assass bloque 1", "asasasas@gmail.com"),
+	("12345678C", "Antonior", "Asasasaas", "Avenida assass bloque 1", "asasasas@gmail.com");
+
 insert into venta (id_venta, coche, empleado, fecha_venta)values
-	(1, 2010, "12345678A", "2024-06-20");
+	(1, 2010, "12345678A", "2024-06-20"),
+    (2, 2014, "12345678B", "2024-06-21"),
+    (3, 2015, "12345678D", "2023-07-20");
     
 select * from coche;
 select * from vendedor;
