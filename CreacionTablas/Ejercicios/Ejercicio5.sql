@@ -21,7 +21,6 @@ create table coche (
     matricula varchar(8) constraint chk_mtr check(char_length(matricula)=8 and matricula like "%-%") unique not null,
     precio decimal(8,2) constraint chr_precio check(precio between 10000.00 and 100000.00),
     color enum ("negro", "blanco", "azul", "rojo", "gris") default "negro"
-
 ) auto_increment = 2000;
 
 /*Ejercicio 3.- Crea una tabla VENDEDOR en la base de datos CONCESIONARIO añade las siguientes columnas:
@@ -45,8 +44,8 @@ create table coche (
 create table vendedor (
 	dni varchar(9) primary key constraint chk_dni check(char_length(dni)=9),
     nombre varchar(10) constraint chk_nombre check( (nombre like "%a%a%" or nombre like "%e%e%" or nombre like "%i%i%" or nombre like "%o%o%" or nombre like "%u%u%" ) and (nombre like "%a%" and nombre like "%r%")) not null,
-    apellido varchar(20) constraint chk_ape check(char_length(apellido)>8 and (apellido like "s%" or apellido like "%s")),
-    direccion varchar(100) constraint chr_dir check((direccion like "Avenida%" or direccion like "Calle%") and (direccion like "%bloque%" or direccion like "%número%")),
+    apellido varchar(20) constraint chk_ape check(char_length(apellido)>=8 and (apellido like "s%" or apellido like "%s")),
+    direccion varchar(100) constraint chr_dir check((direccion like "%Avenida%" or direccion like "%Calle%") and (direccion like "%bloque%" or direccion like "%número%")),
     email varchar(20) constraint chk_email check((email like "%@%") and (email like "%gmail%" or email like "%hotmail%") and (email like "%.com" or email like "%.es")) not null
 );
 
@@ -64,8 +63,8 @@ create table venta (
 	id_venta int primary key auto_increment,
     coche int not null,
     empleado varchar(9) constraint chk_empleado check(char_length(empleado)=9) not null,
-    fecha_venta date constraint chk_fechaVenta check (month(fecha_venta) in (6,7,8)) not null
-) auto_increment = 1;
+    fecha_venta date constraint chk_fechaVenta check (month(fecha_venta) in ("6","7","8")) not null
+);
 
 /*Ejercicio 5.- Haz que la columna Coche de la tabla VENTA referencie como clave foránea a la PK de la tabla COCHE.*/
 
