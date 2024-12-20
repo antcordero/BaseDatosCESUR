@@ -47,10 +47,10 @@ foreign key (cliente2) references clientes(id);
 
 /*5*/
 /*inserción de datos insdispensables*/
-insert into clientes (altura, orientacion) values
-	(1.55, "heterosexual"),
-    (1.80, "homosexual"),
-    (1.30, "otro");
+insert into clientes (altura) values
+	(1.55),
+    (1.80),
+    (1.30);
 
 insert into animales (cliente1, cliente2) values
 	(501, 502),
