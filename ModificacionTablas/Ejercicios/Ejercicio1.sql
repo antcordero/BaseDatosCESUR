@@ -102,9 +102,26 @@ rollback;
 /*Ejercicio 5.- Elimina todas las películas rodadas por un director 
 con un nombre igual al de un actor de género distinto a "femenino". */
 
+select * from peliculas;
+select * from actores;
+
+start transaction;
+
+delete
+from peliculas
+where director in (select nombre
+				   from actores
+				   where genero not like "femenino");
+
+select * from peliculas;
+rollback;
+
+/*Ejercicio 6.- Elimina al actor que haya rodado la película con 
+mayor puntuación de la tabla Peliculas.*/
 
 
-/*Ejercicio 6.- Elimina al actor que haya rodado la película con mayor puntuación de la tabla Peliculas.*/
+
+
 /*Ejercicio 7.- Elimina todos los actores que hayan rodado una película dirigida por "Paola" y hayan rodado otra película dirigida por "Fernando".*/
 /*Ejercicio 8.- Elimina todas las películas con un protagonista nacido antes que el quinto actor más joven de la tabla Actores.*/
 /*Ejercicio 9.- Elimina todas las películas con más de 10 caracteres en su nombre, que el nombre de la película se componga de más de una palabra, y no hayan sido rodadas por un actor con mayor sueldo que la media de los sueldos de todos los actores.*/
