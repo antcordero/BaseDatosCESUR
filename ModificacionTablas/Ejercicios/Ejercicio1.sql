@@ -119,14 +119,85 @@ rollback;
 /*Ejercicio 6.- Elimina al actor que haya rodado la película con 
 mayor puntuación de la tabla Peliculas.*/
 
+select * from actores;
 
+start transaction;
 
+delete
+from actores
+where id_actor = (select actor
+				  from peliculas
+                  where nota = (select max(nota)
+								from peliculas)
+				 );
 
-/*Ejercicio 7.- Elimina todos los actores que hayan rodado una película dirigida por "Paola" y hayan rodado otra película dirigida por "Fernando".*/
-/*Ejercicio 8.- Elimina todas las películas con un protagonista nacido antes que el quinto actor más joven de la tabla Actores.*/
-/*Ejercicio 9.- Elimina todas las películas con más de 10 caracteres en su nombre, que el nombre de la película se componga de más de una palabra, y no hayan sido rodadas por un actor con mayor sueldo que la media de los sueldos de todos los actores.*/
-/*Ejercicio 10.- Elimina todos los actores con mas de dos letra "e" y menos de  dos letras "a" en su nombre, y hayan rodado una pelicula con mayor duración que la película rodada por el actor con id 107.*/
+select * from actores;
+rollback;
 
+/*Ejercicio 7.- Elimina todos los actores que hayan rodado una película dirigida por "Paola" 
+y hayan rodado otra película dirigida por "Fernando".*/
 
+select * from actores;
+select * from peliculas;
 
+start transaction;
+
+delete
+from actores
+where id_actor = (select actor 
+				  from peliculas
+                  where (director like "Paola") and (director like "Fernando"));
+
+select * from actores;
+rollback;
+
+/*Ejercicio 8.- Elimina todas las películas con un protagonista nacido antes que 
+el quinto actor más joven de la tabla Actores.*/
+
+select * from peliculas;
+select * from actores;
+
+start transaction;
+
+delete 
+from peliculas
+where actor in (select id_actor
+			    from actores
+			    order by fecha_nac desc
+			    limit 5);
+
+select * from peliculas;
+rollback;
+
+/*Ejercicio 9.- Elimina todas las películas con más de 10 caracteres en su nombre, 
+que el nombre de la película se componga de más de una palabra, 
+y no hayan sido rodadas por un actor con mayor sueldo que la media de los sueldos de todos los actores.*/
+
+select * from peliculas;
+
+start transaction;
+
+delete
+from peliculas
+where char_length(nombre)>10 and nombre like "% %" and actor in (select *
+																 from actores
+																 where sueldo > (select avg(sueldo)
+																				 from actores));
+
+select * from peliculas;
+rollback;
+
+/*Ejercicio 10.- Elimina todos los actores con mas de dos letra "e" y menos de  dos letras "a" en su nombre, 
+y hayan rodado una pelicula con mayor duración que la película rodada por el actor con id 107.*/
+
+select * from actores;
+
+start transaction;
+
+delete
+from actores
+where (nombre not like "e%" or nombre like "%e%") and (nombre not like) 
+
+select * from peliculas;
+rollback;
 
