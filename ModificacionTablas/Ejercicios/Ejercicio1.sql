@@ -196,7 +196,7 @@ start transaction;
 
 delete
 from actores
-where (nombre not like "e%" or nombre like "%e%") and (nombre not like) 
+where 
 
 select * from peliculas;
 rollback;
