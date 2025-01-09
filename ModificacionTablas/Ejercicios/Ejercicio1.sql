@@ -77,13 +77,13 @@ start transaction;
 
 delete
 from peliculas
-where char_length(director) != length(director);
+where char_length(director) <> length(director);
 
 select * from peliculas;
 rollback;
 
 /*Ejercicio 4.- Elimina todas las películas que hayan 
-sido rodadas por un actor de genero "otro".*/
+sido rodadas por un actor de genero "otros".*/
 
 select * from peliculas;
 select * from actores;
@@ -144,9 +144,9 @@ start transaction;
 
 delete
 from actores
-where id_actor = (select actor 
-				  from peliculas
-                  where (director like "Paola") and (director like "Fernando"));
+where id_actor in (select actor from peliculas where director like "Paola") 
+	  and 
+	  id_actor in (select actor from peliculas where director like "Fernando");
 
 select * from actores;
 rollback;
@@ -163,8 +163,10 @@ delete
 from peliculas
 where actor in (select id_actor
 			    from actores
-			    order by fecha_nac desc
-			    limit 5);
+			    where fecha_nac < (select fecha_nac
+								   from actores
+                                   order by fecha_nac desc
+                                   limit 4,1));
 
 select * from peliculas;
 rollback;
@@ -179,10 +181,14 @@ start transaction;
 
 delete
 from peliculas
-where char_length(nombre)>10 and nombre like "% %" and actor in (select *
-																 from actores
-																 where sueldo > (select avg(sueldo)
-																				 from actores));
+where char_length(nombre)>10 
+	  and 
+	  nombre like "% %" 
+      and 
+      actor in (select id_actor
+			    from actores
+			    where sueldo > (select avg(sueldo)
+							    from actores));
 
 select * from peliculas;
 rollback;
@@ -196,7 +202,13 @@ start transaction;
 
 delete
 from actores
-where 
+where nombre like "%e%e%e%" 
+and
+	  nombre not like "%a%a%"
+and
+	  id_actor in (select actor from peliculas where duracion > (select duracion
+																 from peliculas
+                                                                 where actor = 107));
 
 select * from peliculas;
 rollback;
