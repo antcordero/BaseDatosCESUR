@@ -72,7 +72,7 @@ start transaction;
 
 update alumno
 set apellido = "null"
-where char_lenght(apellido) or nombre like "%e%";
+where char_lenght(apellido)>8 or nombre like "%E%e%";
 
 select * from alumno;
 rollback;
@@ -87,7 +87,7 @@ select * from alumno;
 start transaction;
 
 update alumno
-set apellido = concat(apellido, nombre);
+set apellido = concat(apellido, " ", nombre);
 
 select * from alumno;
 rollback;
@@ -149,8 +149,10 @@ start transaction;
 update alumno
 set grado = (select id
 			 from grado
-             where nombre like "DAW2")
-where char_length(nombre) > 4;
+             where id < (select id
+						 from grado
+                         where nombre like "DAW2"))
+where char_length(nombre) = 4;
 
 select * from alumno;
 rollback;
