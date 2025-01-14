@@ -67,7 +67,7 @@ select * from alumno;
 sea de tipo decimal (con un decimal máximo) y pueda tener una nota máxima de 9,9.*/
 
 alter table alumno
-add column media float(2,1);
+add column media float(2,1) constraint chk_media check(media<=9.9);
 
 select * from alumno;
 
@@ -75,7 +75,7 @@ select * from alumno;
 valores con 2 decimales, tenga el valor 0,0 por defecto y no pueda ser NULL.*/
 
 alter table alumno
-modify media float(3,2) default (0.0) not null;
+modify media float(3,2) default (0.0);
 
 select * from alumno;
 
@@ -102,7 +102,7 @@ select * from alumno;
 que sea un entero y se incremente de forma automática.*/
 
 alter table alumno
-add cod int not null auto_increment primary key first;
+add cod int auto_increment primary key;
 
 select * from alumno;
 
@@ -110,7 +110,7 @@ select * from alumno;
 GRADO para que los valores del nombre siempre contenga el número 1 o el número 2.*/
 
 alter table grado
-add constraint chk_nombre check (nombre like "1%" or nombre like "2%");
+add constraint chk_nombre check (nombre like "%1%" or nombre like "%2%");
 
 /*Ejercicio 12- Elimina la restricción de la columna Nombre de la tabla GRADO*/
 
