@@ -54,29 +54,47 @@ insert into JUGADOR VALUES
 /*Ejercicio 4.- Añade una nueva columna (no nula) “Numero” de 
 tipo numérico en la tabla JUGADOR que por defecto contenga el valor 1.*/
 
+alter table jugador
+add column Numero int not null default 1;
 
+select * from jugador;
 
 /*Ejercicio 5.- Modifica la tabla JUGADOR para que el contenido 
 del jugador con nombre Messi tenga el número 10.*/
 
+update jugador
+set numero = 10
+where nombre like "Messi";
 
+select * from jugador;
 
 /*Ejercicio 6.- Elimina las filas de la tabla EQUIPO con edad media superior a 26.*/
 
+delete
+from equipo
+where edad_media>26;
 
+select * from equipo;
 
 /*Ejercicio 7.- Elimina la columna Hora_nac de la tabla JUGADOR.*/
 
+alter table jugador
+drop column hora_nac;
 
+select * from jugador;
 
 /*Ejercicio 8.- Elimina una fila de contenido de la tabla JUGADOR de nombre Messi.*/
 
+delete
+from jugador
+where nombre like "Messi";
 
+select * from jugador;
 
 /*Ejercicio 9.- Elimina la tabla JUGADOR.*/
 
-
+drop table jugador;
 
 /*Ejercicio 10.- Elimina la base de datos LA_LIGA.*/
 
-
+drop database la_liga;
