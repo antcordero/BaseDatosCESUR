@@ -34,7 +34,9 @@ insert into peliculas (ID, NOMBRE, DURACION, DIRECTOR, GENERO, PUNTUACION, FECHA
 
 /*Ejercicio 1.- Modifica la duración de las peliculas para que 
 se muestre el contenido en horas en vez de en minutos*/
-/*****************************/
+
+alter table peliculas
+drop constraint chk_duracion;
 
 alter table peliculas
 modify duracion decimal;
@@ -68,7 +70,8 @@ select * from peliculas;
 /*Ejercicio 4.- Añade una nueva fila a la tabla con los datos 
 de la película "La cabaña en el bosque"*/
 
-
+insert into peliculas values
+	(7, "La cabaña en el bosque", 4, "asis", "AVENTURA", 9, "2020-12-12");
 
 /*Ejercicio 5.- Modifica la columna Puntación para que se llame Puntos*/
 
@@ -124,9 +127,7 @@ select * from peliculas;
 
 delete 
 from peliculas
-where id in (select id
-			 from peliculas
-             where id  >6);
+where id >6;
 
 /*Ejercicio 9.- Elimina las filas que sean del año 2010*/
 

@@ -1,4 +1,4 @@
-Ejercicio 1.- Crea las siguientes tablas en la base de datos “Centro_adopción”.
+/*Ejercicio 1.- Crea las siguientes tablas en la base de datos “Centro_adopción”.
 
 		Perros (ID, nombre, edad, altura, raza, color, fecha_nac)
 		Humanos(DNI, nombre, apellido, n_cuenta, edad, sexo)
@@ -6,6 +6,8 @@ Ejercicio 1.- Crea las siguientes tablas en la base de datos “Centro_adopción
 	- El número de cuenta estará formado por 8 números
 	- El valor del atributo “color” deberá ser marrón, gris o blanco
 	- El valor del atributo “sexo” deberá ser F o M
+    
+*/
 
 Ejercicio 2.- Añade una clave primaria a cada una de las tablas creadas.
 
