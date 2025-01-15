@@ -21,11 +21,14 @@ create table JUGADOR(
 /*Ejercicio 1.- Añade una nueva columna “Equipo” en la tabla JUGADOR*/
 
 alter table jugador
-add column equipo int;
+add column equipo varchar(20);
 
 select * from jugador;
 
 /*Ejercicio 2.- Haz que la columna Equipo sea FK referenciando al ID de la tabla equipo.*/
+
+alter table jugador
+modify equipo int;
 
 alter table jugador
 add constraint fk_equipo foreign key(equipo) references equipo(id);
