@@ -33,10 +33,16 @@ ALTER TABLE LIKES ADD CONSTRAINT fk_usuario1 FOREIGN KEY (Usuario1) REFERENCES U
 ALTER TABLE LIKES ADD CONSTRAINT fk_usuario2 FOREIGN KEY (Usuario2) REFERENCES USUARIOS(ID);
 
 /*Ejercicio 1.- Añade una nueva columna "Altura" a la tabla
-USUARIOS que por defecto tenga un valor 1.70 y deba ser 
-un valor entre 1.50 y 2.00 (ambos incluidos).*/
+USUARIOS que por defecto tenga un valor 1.70 
+y deba ser un valor entre 1.50 y 2.00 (ambos incluidos).*/
 
+alter table usuarios
+add column Altura decimal(3,2) default 1.70;
 
+select * from usuarios;
+
+alter table usuarios
+add constraint chk_altura check(altura between 1.50 and 2.00);
 
 /*Ejercicio 2.- Añade un usuario a la tabla USUARIOS con los siguientes datos. 
 
@@ -46,7 +52,19 @@ un valor entre 1.50 y 2.00 (ambos incluidos).*/
 	- Orientacion: "Otro"
 */
 
+alter table usuarios
+modify orientacion enum ("heterosexual","homosexual", "otro");
 
+alter table usuarios
+drop constraint edad_chk;
+
+alter table usuarios
+add constraint chk_edad check(Edad between 17 and 99);
+
+insert into usuarios (Nombre, Apellido, Edad, Orientacion) values
+	("Antonio", "Alcantara", 17, "otro");
+    
+select * from usuarios;
 
 /*Ejercicio 3.- Añade un usuario a la tabla LIKES con los siguientes datos. 
 
@@ -57,7 +75,7 @@ un valor entre 1.50 y 2.00 (ambos incluidos).*/
 	- Usuario2: 7
 */
 
-
+select * from likes;
 
 /*Ejercicio 4.- Añade un usuario a la tabla USUARIOS con los siguientes datos. 
 
