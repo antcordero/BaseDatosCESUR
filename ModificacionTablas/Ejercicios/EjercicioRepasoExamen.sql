@@ -39,10 +39,10 @@ y deba ser un valor entre 1.50 y 2.00 (ambos incluidos).*/
 alter table usuarios
 add column Altura decimal(3,2) default 1.70;
 
-select * from usuarios;
-
 alter table usuarios
 add constraint chk_altura check(altura between 1.50 and 2.00);
+
+select * from usuarios;
 
 /*Ejercicio 2.- Añade un usuario a la tabla USUARIOS con los siguientes datos. 
 
@@ -75,6 +75,18 @@ select * from usuarios;
 	- Usuario2: 7
 */
 
+alter table likes
+drop constraint fk_usuario1;
+
+alter table likes
+drop constraint fk_usuario2;
+
+alter table likes
+modify fecha varchar(50);
+
+insert into likes (ID, Fecha, Tipo, Usuario1, Usuario2) values
+	(105, "2022-02-30", "like", 9, 7 );
+
 select * from likes;
 
 /*Ejercicio 4.- Añade un usuario a la tabla USUARIOS con los siguientes datos. 
@@ -86,18 +98,57 @@ select * from likes;
 	- Altura: 1.425
 */
 
+alter table usuarios
+modify nombre varchar(15);
 
+alter table usuarios
+modify column altura decimal(4,3) default 1.70;
 
-/*Ejercicio 5.- Modifica los siguientes datos de la base de datos TINDER.
+alter table usuarios
+drop constraint chk_altura;
 
-	- Añade 50 años a la edad de todos los usuarios de Orientación "homosexual"
+alter table usuarios 
+add constraint chk_altura check(altura between 1.400 and 2.000);
+
+insert into usuarios (Nombre, Apellido, Edad, Orientacion, altura) values
+	(null, "Rodriguez", 30, "homosexual", 1.425);
+
+select * from usuarios;
+
+/*Ejercicio 5.- Modifica los siguientes datos de la base de datos TINDER.*/
+/*- Añade 50 años a la edad de todos los usuarios de Orientación "homosexual"*/
 	
-- Modifica el nombre de los usuarios con orientación distinta a "Otro", y edad superior a 75 años, para que su nombre sea "Pepe"
+alter table usuarios
+drop constraint chk_edad;
 
-- Elimina los datos de los Usuarios con más de 50 años o que su género sea igual a "Otro".
+update usuarios
+set edad = edad + 50
+where orientacion like "homosexual";
 
-- Elimina los datos de los Usuarios que contengan más de una "a" en su nombre o en su apellido
-*/
+select * from usuarios;
+    
+/*- Modifica el nombre de los usuarios con orientación distinta a "Otro", y edad superior a 75 años, para que su nombre sea "Pepe"*/
 
+update usuarios 
+set nombre = "Pepe"
+where orientacion not like "otro" and edad>75;
+
+select * from usuarios;
+
+/*- Elimina los datos de los Usuarios con más de 50 años o que su género sea igual a "Otro".*/
+
+delete 
+from usuarios 
+where edad>50 or orientacion like "otro";
+
+select * from usuarios;
+
+/*- Elimina los datos de los Usuarios que contengan más de una "a" en su nombre o en su apellido*/
+
+delete
+from usuarios 
+where nombre like "%a%a%" or apellido like "%a%a%";
+
+select * from usuarios;
 
 
